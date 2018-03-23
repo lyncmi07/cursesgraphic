@@ -4,8 +4,6 @@ import (
 	"image/color"
 	"time"
 
-	"fmt"
-
 	"github.com/hajimehoshi/ebiten"
 )
 
@@ -153,8 +151,6 @@ func (c *Canvas) FillRect(x int, y int, width int, height int) {
 	x += c.saveStates[0].translationVector.X
 	y += c.saveStates[0].translationVector.Y
 
-	//FIXME:offscreen
-
 	aX := x
 	aY := y
 
@@ -172,10 +168,8 @@ func (c *Canvas) FillRect(x int, y int, width int, height int) {
 		actualWidth = c.width - aX
 	}
 
-	//FIXME:fix this properly
 	if actualWidth < 1 {
 		return
-		//		actualWidth = 1
 	}
 
 	for i := aY; (i < c.height) && i < (height+aY); i++ {
@@ -198,7 +192,6 @@ func (c *Canvas) FillRect(x int, y int, width int, height int) {
 
 		if (aX + actualWidth - 1) < c.width-1 {
 			if (aX+actualWidth < len(c.contents[i])) && (i < len(c.contents)) && (aX+actualWidth > 0) && (i > 0) {
-				fmt.Printf("%d, %d \n", (aX + actualWidth), len(c.contents[i]))
 				if (c.contents[i][aX+actualWidth-1].backgroundColor != c.contents[i][aX+actualWidth].backgroundColor) ||
 					(c.contents[i][aX+actualWidth-1].textColor != c.contents[i][aX+actualWidth].textColor) {
 					//c.lineBreakage[i] = true;
