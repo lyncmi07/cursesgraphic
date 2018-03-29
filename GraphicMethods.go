@@ -102,6 +102,16 @@ func (c *Canvas) SetFillChar(ch rune) {
 	c.saveStates[0].fillChar = ch
 }
 
+//draw a line from between two characters
+func (c *Canvas) DrawLine(x1, y1, x2, y2 int) {
+	c.graphicLines = append(c.graphicLines, lineInfo{x1, y1, x2, y2})
+}
+
+//clears previously drawn lines from view
+func (c *Canvas) ClearLines() {
+	c.graphicLines = make([]lineInfo, 0)
+}
+
 func (c *Canvas) FillText(text string, x, y int) {
 	//use this
 	x += c.saveStates[0].translationVector.X
