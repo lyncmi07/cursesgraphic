@@ -104,6 +104,10 @@ func (c *Canvas) SetFillChar(ch rune) {
 
 //draw a line from between two characters
 func (c *Canvas) DrawLine(x1, y1, x2, y2 int) {
+	x1 += c.saveStates[0].translationVector.X
+	y1 += c.saveStates[0].translationVector.Y
+	x2 += c.saveStates[0].translationVector.X
+	y2 += c.saveStates[0].translationVector.Y
 	c.graphicLines = append(c.graphicLines, lineInfo{x1, y1, x2, y2})
 }
 
