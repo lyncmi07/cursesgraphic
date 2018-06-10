@@ -261,4 +261,7 @@ func (c *Canvas) DrawCanvas(x int, y int, can Canvas) {
 			}
 		}
 	}
+
+	c.graphicLines = make([]lineInfo, len(can.graphicLines))
+	copy(c.graphicLines, can.graphicLines)
 }

@@ -19,10 +19,12 @@ const (
 )
 
 var (
-	standardFont font.Face
-	realCanvas   *Canvas
-	scrWidth     int
-	scrHeight    int
+	standardFont     font.Face
+	realCanvas       *Canvas
+	bufferCanvas     *Canvas
+	scrWidth         int
+	scrHeight        int
+	currentlyDrawing bool
 )
 
 type mainThread func(screenCanvas *Canvas)
@@ -50,7 +52,12 @@ func init() {
 		DPI:     dpi,
 		Hinting: font.HintingFull,
 	})
+	currentlyDrawing = false
 	ebiten.SetFullscreen(true)
+}
+
+func SwapBuffers() {
+	realCanvas.DrawCanvas(0, 0, *bufferCanvas)
 }
 
 func update(screen *ebiten.Image) error {
@@ -58,7 +65,9 @@ func update(screen *ebiten.Image) error {
 		return nil
 	}
 
-	drawCanvasToScreen(screen)
+	if !currentlyDrawing {
+		drawCanvasToScreen(screen)
+	}
 
 	return nil
 }
@@ -232,7 +241,17 @@ func NewFullscreenCanvas() *Canvas {
 	rc.contents = newContents(rc.width, rc.height)
 	realCanvas = rc
 
-	return rc
+	bc := newGenericCanvas()
+
+	bc.height = rc.height
+	bc.width = rc.width
+
+	bc.lineBreakage = make([]int, 0)
+	bc.contents = newContents(rc.width, rc.height)
+
+	bufferCanvas = bc
+
+	return bc
 }
 
 func NewVirtualCanvas(width int, height int) *Canvas {
