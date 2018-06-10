@@ -105,7 +105,6 @@ func drawCanvasToScreen(screen *ebiten.Image) {
 	for i := 0; i < realCanvas.height; i++ {
 		if realCanvas.hasLineBreakage(i) {
 			if currentFirstLineIndex != -1 {
-				//fmt.Printf("Printing for line %d\n", currentFirstLineIndex);
 				ebitenutil.DrawRect(screen,
 					0,
 					float64(currentFirstLineIndex*TEXT_HEIGHT+4),
