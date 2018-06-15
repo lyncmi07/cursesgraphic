@@ -53,7 +53,7 @@ func init() {
 		Hinting: font.HintingFull,
 	})
 	currentlyDrawing = false
-	ebiten.SetFullscreen(true)
+	// ebiten.SetFullscreen(true)
 }
 
 func SwapBuffers() {
@@ -189,11 +189,13 @@ func drawCanvasToScreen(screen *ebiten.Image) {
 		color.RGBA{0, 0, 0xFF, 0xFF})
 }
 
-func CurseGraphicStart(fn mainThread, screenWidth, screenHeight int) {
+func CurseGraphicStart(fn mainThread, screenWidth, screenHeight int, fullscreen bool) {
 	scrWidth = screenWidth
 	scrHeight = screenHeight
 
 	rc := NewFullscreenCanvas()
+
+	ebiten.SetFullscreen(fullscreen)
 
 	go fn(rc)
 
